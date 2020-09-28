@@ -1,47 +1,94 @@
-<?php include '../classes/Adminlogin.php' ?>
+<?php include 'inc/header.php'; ?>
 <?php 
-$al = new Adminlogin();
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $adminUser = $_POST['adminUser'];
-    $adminPass = $_POST['adminPass'];
-
-    $loginChk= $al->adminLogin($adminUser, $adminPass);
+$login = Session::get("cuslogin");
+if ($login == true) {
+    header("Location:order.php");
 }
-
-
  ?>
-<!DOCTYPE html>
-<head>
-<meta charset="utf-8">
-<title>Admin Login</title>
-    <link rel="stylesheet" type="text/css" href="css/stylelogin.css" media="screen" />
-</head>
-<body>
-<div class="container">
-	<section id="content">
-		<form action="" method="post">
-			<h1>Admin Login</h1>
-			<span style="color:red; font-size:18px;">
-				<?php 
-                if (isset($loginChk)) {
-                    echo $loginChk;
-                }
-                ?>
-			</span>
-			<div>
-				<input type="text" placeholder="Username" name="adminUser"/>
-			</div>
-			<div>
-				<input type="password" placeholder="Password" name="adminPass"/>
-			</div>
-			<div>
-				<input type="submit" value="Log in" />
-			</div>
-		</form><!-- form -->
-		<div class="button">
-			<a href="#">A project by keya</a>
-		</div><!-- button -->
-	</section><!-- content -->
-</div><!-- container -->
-</body>
-</html>
+<?php 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['login'])) {
+    $custLogin = $cmr->customerLogin($_POST);
+}
+?>
+ <div class="main">
+    <div class="content">
+    	 <div class="login_panel">
+    	 	<?php 
+            if (isset($custLogin)) {
+                echo $custLogin;
+            }
+             ?>
+        	<h3>Existing Customers</h3>
+        	<p>Sign in with the form below.</p>
+        	<form action="" method="post">
+                	<input name="email" placeholder="Email" type="text"/>
+                    <input name="pass" placeholder="Password" type="password"/>
+                 
+                 <p class="note">If you forgot your passoword just enter your email and click <a href="#">here</a></p>
+                    <div class="buttons"><div><button class="grey" name="login">Sign In</button></div></div>
+                    </div>
+                    </form>
+                    <?php 
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['register'])) {
+    $customerReg = $cmr->customerRegistration($_POST);
+}
+?>
+    	<div class="register_account">
+    		<?php 
+            if (isset($customerReg)) {
+                echo $customerReg;
+            }
+             ?>
+    		<h3>Register New Account</h3>
+    		<form action="" method="post">
+		   			 <table>
+		   				<tbody>
+						<tr>
+						<td>
+							<div>
+							<input type="text" name="name" placeholder="Name"/>
+							</div>
+							<div>
+							<input type="text" name="address" placeholder="Address"/>
+							</div>
+							
+							<div>
+							   <input type="text" name="city" placeholder="City"/>
+							</div>
+							
+							<div>
+								<input type="text" name="zip" placeholder="Zip Code"/>
+							</div>
+							
+		    			 </td>
+		    			<td>
+		    				<div>
+								<input type="text" name="email" placeholder="Email"/>
+							</div>
+						<div>
+							<input type="text" name="country" placeholder="Country"/>
+						</div>
+		    			        
+	
+		           <div>
+		          <input type="text" name="phone" placeholder="Phone"/>
+		          </div>
+				  
+				  <div>
+					<input type="text" name="pass" placeholder="Password"/>
+				</div>
+		    	</td>
+		    </tr> 
+		    </tbody></table> 
+		   <div class="search"><div><button class="grey" name="register">Create Account</button></div></div>
+		    <p class="terms">By clicking 'Create Account' you agree to the <a href="#">Terms &amp; Conditions</a>.</p>
+		    <div class="clear"></div>
+		    </form>
+    	</div>  	
+       <div class="clear"></div>
+    </div>
+ </div>
+<?php include 'inc/footer.php'; ?>
+
